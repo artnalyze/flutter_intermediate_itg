@@ -12,6 +12,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String email, password;
 
+  TextEditingController mailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   Widget _buildLogo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -35,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: EdgeInsets.all(8),
       child: TextFormField(
+        controller: mailController,
         keyboardType: TextInputType.emailAddress,
         onChanged: (value) {
           setState(() {
@@ -55,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: EdgeInsets.all(8),
       child: TextFormField(
+        controller: passwordController,
         keyboardType: TextInputType.text,
         obscureText: true,
         onChanged: (value) {
@@ -101,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () {},
+            onPressed: _login,
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
@@ -269,5 +274,14 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  // section Login
+  void _login() {
+    var userData = {
+      'email': mailController.text,
+      'password': passwordController.text
+    };
+    print(userData);
   }
 }
