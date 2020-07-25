@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stock/services/rest_api.dart';
 import 'package:flutter_stock/themes/styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -14,6 +16,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  // Loading...
+  bool _isLoading = false;
+
+  // Alert Dialog
+  showAlertDialog(BuildContext context, String msg) {
+    AlertDialog alert = AlertDialog(
+      title: Text('Login Status'),
+      content: Text(msg),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('OK'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
 
   Widget _buildLogo() {
     return Row(
@@ -246,30 +273,47 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                width: MediaQuery.of(context).size.width,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: appTheme().primaryColor,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: const Radius.circular(70),
-                      bottomRight: const Radius.circular(70),
+        body: Center(
+          child: SingleChildScrollView(
+            child: _isLoading
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: <Widget>[
+                          CircularProgressIndicator(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('กำลังตรวจสอบข้อมูล....')
+                        ],
+                      ),
                     ),
+                  )
+                : Stack(
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        width: MediaQuery.of(context).size.width,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: appTheme().primaryColor,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: const Radius.circular(70),
+                              bottomRight: const Radius.circular(70),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _buildLogo(),
+                          _buildContainer(),
+                        ],
+                      )
+                    ],
                   ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _buildLogo(),
-                  _buildContainer(),
-                ],
-              )
-            ],
           ),
         ),
       ),
@@ -277,11 +321,32 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // section Login
-  void _login() {
+  void _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     var userData = {
       'email': mailController.text,
       'password': passwordController.text
     };
-    print(userData);
+
+    var response = await CallAPI().postData(userData, 'login');
+    var body = json.decode(response.body);
+    print(body);
+    if (body['success']) {
+      setState(() {
+        _isLoading = false;
+      });
+      print('Login success');
+      showAlertDialog(context, "Login Success!");
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      print('Login fail');
+      showAlertDialog(context, "Login Fail!");
+    }
+    // print(userData);
   }
 }
