@@ -3,6 +3,7 @@ import 'package:flutter_stock/services/rest_api.dart';
 import 'package:flutter_stock/themes/styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -322,6 +323,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // section Login
   void _login() async {
+    //  สร้างตัวเก็บข้อมูลแบบ SharedPreferences
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     setState(() {
       _isLoading = true;
     });
@@ -340,6 +344,10 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       print('Login success');
       showAlertDialog(context, "Login Success!");
+
+      // การสร้างตัวแปรเก็บลง sharedPreferences
+      sharedPreferences.setString("storeName", body["data"]["name"]);
+      sharedPreferences.setString("storeEmail", body["data"]["email"]);
 
       // ส่งไปหน้า dashboard
       Navigator.pushNamed(context, '/dashboard');
