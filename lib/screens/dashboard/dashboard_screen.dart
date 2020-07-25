@@ -14,6 +14,9 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  // สร้างตัวแปร ไว้เก็บชื่อและอีเมล์ผู้ใช้
+  String nameAccount, emailAccount;
+
   // สร้าง Object sharedPreferences
   SharedPreferences sharedPreferences;
 
@@ -35,6 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     _title = "หน้าหลัก";
     // ตรวจข้อมูล sharedPreferences ของผู้ใช้
+    checkLoginStatus();
   }
 
   // Check Login Status
@@ -43,6 +47,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (sharedPreferences.getString("storeName") == null) {
       // ส่งกลับหน้า Login
       Navigator.pushNamed(context, "/login");
+    } else {
+      setState(() {
+        nameAccount = sharedPreferences.getString("storeName");
+        emailAccount = sharedPreferences.getString("storeEmail");
+      });
     }
   }
 
@@ -76,7 +85,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: Text(_title),
         actions: <Widget>[
-          FlatButton(onPressed: () {}, child: Text("ออกจากระบบ"))
+          FlatButton(
+              onPressed: () {
+                sharedPreferences.clear();
+                Navigator.pushNamed(context, "/login");
+              },
+              child: Text(
+                "ออกจากระบบ",
+                style: TextStyle(color: Colors.white),
+              ))
         ],
       ),
       body: _children[_currentIndex],
@@ -101,8 +118,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 )
               ],
-              accountName: Text('Samit Koyom'),
-              accountEmail: Text('samit@gmail.com'),
+              accountName: Text('$nameAccount'),
+              accountEmail: Text('$emailAccount'),
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage(
@@ -136,7 +153,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('ออกจากระบบ'),
-              onTap: () {},
+              onTap: () {
+                sharedPreferences.clear();
+                Navigator.pushNamed(context, "/login");
+              },
             ),
             Divider(
               color: Colors.green[200],
