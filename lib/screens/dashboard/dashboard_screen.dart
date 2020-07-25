@@ -4,6 +4,7 @@ import 'package:flutter_stock/screens/bottomnav/home/home_screen.dart';
 import 'package:flutter_stock/screens/bottomnav/notification/notification_screen.dart';
 import 'package:flutter_stock/screens/bottomnav/setting/setting_screen.dart';
 import 'package:flutter_stock/screens/bottomnav/stock/stock_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
@@ -13,6 +14,9 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  // สร้าง Object sharedPreferences
+  SharedPreferences sharedPreferences;
+
   // สร้างตัวแปร List เก็บรายการหน้าที่ต้องการเปลี่ยนใน Bottom Navigationbar
   int _currentIndex = 0;
   String _title;
@@ -30,6 +34,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // TODO: implement initState
     super.initState();
     _title = "หน้าหลัก";
+    // ตรวจข้อมูล sharedPreferences ของผู้ใช้
+  }
+
+  // Check Login Status
+  checkLoginStatus() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("storeName") == null) {
+      // ส่งกลับหน้า Login
+      Navigator.pushNamed(context, "/login");
+    }
   }
 
   // สร้าง method สำหรับการเปลี่ยนหน้า
