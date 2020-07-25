@@ -4,6 +4,7 @@ import 'package:flutter_stock/screens/bottomnav/home/home_screen.dart';
 import 'package:flutter_stock/screens/bottomnav/notification/notification_screen.dart';
 import 'package:flutter_stock/screens/bottomnav/setting/setting_screen.dart';
 import 'package:flutter_stock/screens/bottomnav/stock/stock_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -83,7 +84,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        title: Text(
+          _title,
+          style: GoogleFonts.kanit(),
+        ),
         actions: <Widget>[
           FlatButton(
               onPressed: () {
@@ -128,7 +132,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             ListTile(
               leading: Icon(Icons.info),
-              title: Text('เกี่ยวกับเรา'),
+              title: Text(
+                'เกี่ยวกับเรา',
+                style: GoogleFonts.kanit(),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/about');
@@ -136,7 +143,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             ListTile(
               leading: Icon(Icons.book),
-              title: Text('ข้อมูลการใช้งาน'),
+              title: Text(
+                'ข้อมูลการใช้งาน',
+                style: GoogleFonts.kanit(),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/term');
@@ -144,7 +154,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             ListTile(
               leading: Icon(Icons.mail),
-              title: Text('ติดต่อทีมงาน'),
+              title: Text(
+                'ติดต่อทีมงาน',
+                style: GoogleFonts.kanit(),
+              ),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/contact');
@@ -152,7 +165,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
-              title: Text('ออกจากระบบ'),
+              title: Text(
+                'ออกจากระบบ',
+                style: GoogleFonts.kanit(),
+              ),
               onTap: () {
                 sharedPreferences.clear();
                 Navigator.pushNamed(context, "/login");
@@ -163,7 +179,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             ListTile(
               leading: Icon(Icons.cancel),
-              title: Text('ปิดเมนู'),
+              title: Text(
+                'ปิดเมนู',
+                style: GoogleFonts.kanit(),
+              ),
               onTap: () => Navigator.of(context).pop(),
             ),
           ],
