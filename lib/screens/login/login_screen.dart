@@ -340,6 +340,9 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       print('Login success');
       showAlertDialog(context, "Login Success!");
+
+      // ส่งไปหน้า dashboard
+      Navigator.pushNamed(context, '/dashboard');
     } else {
       setState(() {
         _isLoading = false;

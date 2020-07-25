@@ -8,18 +8,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
- var pages = [
-  '/login',
-  '/media_layout',
-  '/media_query',
-  '/media_query',
-  '/media_query',
-  '/media_query',
-  '/media_query',
-  '/media_query'
- ];
-
+  var pages = [
+    '/login',
+    '/media_layout',
+    '/media_query',
+    '/media_query',
+    '/media_query',
+    '/media_query',
+    '/media_query',
+    '/media_query'
+  ];
 
   var services = [
     "Animation",
@@ -66,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 24,
+                        height: 10,
                       ),
                       Icon(
                         IconData[index],
@@ -83,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           services[index],
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 13,
                               fontFamily: "Montserrat",
                               color: Colors.white,
                               fontWeight: FontWeight.w600),
