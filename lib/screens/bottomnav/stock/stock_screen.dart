@@ -27,6 +27,7 @@ class _StockScreenState extends State<StockScreen> {
             InkWell(
               onTap: () {
                 print('tap on add button');
+                Navigator.pushNamed(context, "/addproduct");
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, right: 16),
